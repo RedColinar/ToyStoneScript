@@ -6,10 +6,7 @@ import javax.swing.JOptionPane
 import javax.swing.JScrollPane
 import javax.swing.JTextArea
 
-class LexerRunner {
-}
-
-fun main(args: Array<String>) {
+fun main() {
     val l = Lexer(CodeDialog())
     var t: Token = l.read()
     while (t != Token.EOF) {
@@ -30,7 +27,7 @@ class CodeDialog : Reader() {
             if (stdIn == "") {
                 return -1
             } else {
-                print(stdIn)
+                println(stdIn)
                 buffer = stdIn + "\n"
                 pos = 0
             }

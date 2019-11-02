@@ -2,7 +2,7 @@ package com.opq.script
 
 abstract class Token(val lineNumber: Int) {
 
-    open fun isIdentfier(): Boolean = false
+    open fun isIdentifier(): Boolean = false
 
     open fun isNumber(): Boolean = false
 
@@ -29,7 +29,7 @@ class NumToken(line: Int, private val value: Int) : Token(line) {
 
 class IdToken(line: Int, private val id: String): Token(line) {
 
-    override fun isIdentfier(): Boolean = true
+    override fun isIdentifier(): Boolean = true
 
     override fun getText(): String = id
 }
