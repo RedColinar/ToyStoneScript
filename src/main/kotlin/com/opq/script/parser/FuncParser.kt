@@ -5,7 +5,7 @@ import com.opq.script.ast.Arguments
 import com.opq.script.ast.DefStmnt
 import com.opq.script.ast.ParameterList
 
-class FuncParser : BasicParser() {
+open class FuncParser : BasicParser() {
     var param = rule().identifier(reserved)
     var params = rule(ParameterList::class.java)
         .ast(param).repeat(rule().sep(",").ast(param))

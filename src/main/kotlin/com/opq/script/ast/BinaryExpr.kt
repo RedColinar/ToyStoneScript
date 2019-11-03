@@ -18,7 +18,7 @@ open class BinaryExpr(c: List<ASTree>) : ASTList(c) {
         return child(2)
     }
 
-    override fun eval(env: Environment): Any {
+    override fun eval(env: Environment): Any? {
         val op = operator()
         if ("=" == op) {
             val right = right().eval(env)
@@ -30,7 +30,7 @@ open class BinaryExpr(c: List<ASTree>) : ASTList(c) {
         }
     }
 
-    private fun computeAssign(env: Environment, rvalue: Any): Any {
+    private fun computeAssign(env: Environment, rvalue: Any?): Any? {
         val l = left()
         if (l is Name) {
             env.put(l.name(), rvalue)

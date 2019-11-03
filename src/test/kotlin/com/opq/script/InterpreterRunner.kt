@@ -5,6 +5,7 @@ import com.opq.script.interpreter.BasicEnv
 import com.opq.script.interpreter.Environment
 import com.opq.script.interpreter.NestedEnv
 import com.opq.script.parser.BasicParser
+import com.opq.script.parser.ClosureParser
 import com.opq.script.parser.FuncParser
 import org.junit.Test
 
@@ -37,6 +38,23 @@ class InterpreterTest {
         fib(10)
         */
         run(FuncParser(), NestedEnv())
+    }
+
+    @Test
+    fun closureInterpreterRunner() {
+        /*
+        def counter (c) {
+            fun () {
+                c = c + 1
+            }
+        }
+        c1 = counter(0)
+        c2 = counter(0)
+        c1()
+        c1()
+        c2()
+        */
+        run(ClosureParser(), NestedEnv())
     }
 }
 

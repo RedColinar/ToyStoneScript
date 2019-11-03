@@ -21,16 +21,13 @@ open class IfStmnt(c: List<ASTree>) : ASTList(c) {
                 + " else " + elseBlock() + ")")
     }
 
-    override fun eval(env: Environment): Any {
+    override fun eval(env: Environment): Any? {
         val c = condition().eval(env)
-        if (c is Int && c.toInt() != FALSE)
-            return thenBlock().eval(env)
-        else {
+        return if (c is Int && c.toInt() != FALSE) {
+            thenBlock().eval(env)
+        } else {
             val b = elseBlock()
-            return if (b == null)
-                0
-            else
-                b.eval(env)
+            if (b == null) 0 else b.eval(env)
         }
     }
 }
