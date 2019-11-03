@@ -1,6 +1,8 @@
 package com.opq.script.ast
 
+import com.opq.script.StoneException
 import com.opq.script.Token
+import com.opq.script.interpreter.Environment
 import java.util.ArrayList
 
 
@@ -27,6 +29,10 @@ open class ASTLeaf(protected val token: Token) : ASTree() {
 
     fun token(): Token {
         return token
+    }
+
+    override fun eval(env: Environment): Any {
+        throw StoneException("cannot eval: " + toString(), this)
     }
 
     companion object {

@@ -19,7 +19,9 @@ class CodeDialog : Reader() {
     private var buffer: String? = null
     private var pos = 0
 
-    override fun close() = throw IOException()
+    override fun close() {
+        throw IOException()
+    }
 
     override fun read(cbuf: CharArray, off: Int, len: Int): Int {
         if (buffer == null) {

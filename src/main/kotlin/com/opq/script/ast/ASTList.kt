@@ -1,5 +1,8 @@
 package com.opq.script.ast
 
+import com.opq.script.StoneException
+import com.opq.script.interpreter.Environment
+
 open class ASTList(protected var children: List<ASTree>) : ASTree() {
     override fun child(i: Int): ASTree {
         return children[i]
@@ -31,5 +34,9 @@ open class ASTList(protected var children: List<ASTree>) : ASTree() {
             if (s != null) return s
         }
         return null
+    }
+
+    override fun eval(env: Environment): Any {
+        throw StoneException("cannot eval: " + toString(), this)
     }
 }

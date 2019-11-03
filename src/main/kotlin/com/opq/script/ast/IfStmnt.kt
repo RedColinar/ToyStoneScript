@@ -1,6 +1,9 @@
 package com.opq.script.ast
 
-class IfStmnt(c: List<ASTree>) : ASTList(c) {
+import com.opq.script.interpreter.Environment
+import com.opq.script.interpreter.FALSE
+
+open class IfStmnt(c: List<ASTree>) : ASTList(c) {
     fun condition(): ASTree {
         return child(0)
     }
@@ -16,5 +19,18 @@ class IfStmnt(c: List<ASTree>) : ASTList(c) {
     override fun toString(): String {
         return ("(if " + condition() + " " + thenBlock()
                 + " else " + elseBlock() + ")")
+    }
+
+    override fun eval(env: Environment): Any {
+        val c = condition().eval(env)
+        if (c is Int && c.toInt() != FALSE)
+            return thenBlock().eval(env)
+        else {
+            val b = elseBlock()
+            return if (b == null)
+                0
+            else
+                b.eval(env)
+        }
     }
 }
