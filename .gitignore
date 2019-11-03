@@ -6,6 +6,7 @@
 build/
 .idea
 out/
+.DS_Store
 
 # Ignore Gradle GUI config
 gradle-app.setting
