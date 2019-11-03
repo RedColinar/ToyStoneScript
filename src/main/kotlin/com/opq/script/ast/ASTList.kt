@@ -36,7 +36,7 @@ open class ASTList(protected var children: List<ASTree>) : ASTree() {
         return null
     }
 
-    override fun eval(env: Environment): Any {
+    override fun eval(env: Environment): Any? {
         throw StoneException("cannot eval: " + toString(), this)
     }
 }

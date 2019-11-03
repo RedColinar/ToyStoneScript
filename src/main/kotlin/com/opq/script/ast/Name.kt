@@ -9,8 +9,11 @@ open class Name(t: Token) : ASTLeaf(t) {
         return token().getText()
     }
 
-    override fun eval(env: Environment): Any {
-        val value = env[name()]
-        return value ?: throw StoneException("undefined name: " + name(), this)
+    override fun eval(env: Environment): Any? {
+        if (!env.contains(name())) {
+            throw StoneException("undefined name: " + name(), this)
+        } else {
+            return env[name()]
+        }
     }
 }

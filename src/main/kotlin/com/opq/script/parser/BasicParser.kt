@@ -1,11 +1,15 @@
-package com.opq.script
+package com.opq.script.parser
 
+import com.opq.script.Lexer
+import com.opq.script.ParseException
+import com.opq.script.Parser
 import com.opq.script.Parser.Operators
 import com.opq.script.Parser.rule
+import com.opq.script.Token
 import com.opq.script.ast.*
 import java.util.*
 
-class BasicParser {
+open class BasicParser {
     var reserved = HashSet<String>()
     var operators = Operators()
     var expr0 = rule()

@@ -31,7 +31,7 @@ open class ASTLeaf(protected val token: Token) : ASTree() {
         return token
     }
 
-    override fun eval(env: Environment): Any {
+    override fun eval(env: Environment): Any? {
         throw StoneException("cannot eval: " + toString(), this)
     }
 

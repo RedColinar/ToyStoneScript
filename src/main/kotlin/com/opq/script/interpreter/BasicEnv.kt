@@ -3,6 +3,7 @@ package com.opq.script.interpreter
 import java.util.*
 
 class BasicEnv : Environment {
+
     protected var values: HashMap<String, Any?> = HashMap()
 
     override fun put(name: String, value: Any?) {
@@ -11,5 +12,9 @@ class BasicEnv : Environment {
 
     override fun get(name: String): Any? {
         return values[name]
+    }
+
+    override fun contains(name: String): Boolean {
+        return values.containsKey(name)
     }
 }

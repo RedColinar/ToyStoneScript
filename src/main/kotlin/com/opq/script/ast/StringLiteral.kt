@@ -8,7 +8,7 @@ open class StringLiteral(t: Token) : ASTLeaf(t) {
         return token().getText()
     }
 
-    override fun eval(e: Environment): Any {
+    override fun eval(env: Environment): Any? {
         return value()
     }
 }

@@ -16,8 +16,8 @@ open class WhileStmnt(c: List<ASTree>) : ASTList(c) {
         return "(while " + condition() + " " + body() + ")"
     }
 
-    override fun eval(env: Environment): Any {
-        var result: Any = 0
+    override fun eval(env: Environment): Any? {
+        var result: Any? = 0
         while (true) {
             val c = condition().eval(env)
             if (c is Int && c.toInt() == FALSE)

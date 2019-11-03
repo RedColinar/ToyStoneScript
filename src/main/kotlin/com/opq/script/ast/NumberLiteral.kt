@@ -8,7 +8,7 @@ open class NumberLiteral(t: Token) : ASTLeaf(t) {
         return token().getNumber()
     }
 
-    override fun eval(env: Environment): Any {
+    override fun eval(env: Environment): Any? {
         return value()
     }
 }
