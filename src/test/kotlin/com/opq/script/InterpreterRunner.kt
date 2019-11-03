@@ -1,7 +1,8 @@
-package com.opq.script.interpreter
+package com.opq.script
 
-import com.opq.script.*
 import com.opq.script.ast.NullStmnt
+import com.opq.script.interpreter.BasicEnv
+import com.opq.script.interpreter.Environment
 
 /*
 sum = 0
