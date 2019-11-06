@@ -67,30 +67,31 @@ class Lexer(reader: Reader) {
         if (matcher.group(2) == null) {
             val token = when {
                 matcher.group(3) != null -> NumToken(lineNo, Integer.parseInt(m))
-                matcher.group(4) != null -> StrToken(lineNo, trStringLiteral(m))
+                matcher.group(4) != null -> StrToken(lineNo, toStringLiteral(m))
                 else -> IdToken(lineNo, m)
             }
             queue.add(token)
         }
     }
 
-    private fun trStringLiteral(s: String): String {
+    private fun toStringLiteral(s: String): String {
         val sb = StringBuilder()
         val len = s.length - 1
-        for (i in 0 until len) {
+        var i = 1
+        while (i < len) {
             var c = s[i]
             if (c == '\\' && i + 1 < len) {
                 val c2 = s[i + 1]
-                if (c2 == '"' || c2 == '\\') {
-                    c = s[i.inc()]
-                } else if (c2 == 'n') {
-                    i.inc()
+                if (c2 == '"' || c2 == '\\')
+                    c = s[++i]
+                else if (c2 == 'n') {
+                    ++i
                     c = '\n'
                 }
             }
             sb.append(c)
+            i++
         }
         return sb.toString()
     }
-
 }

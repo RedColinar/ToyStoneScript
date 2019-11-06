@@ -1,7 +1,9 @@
 package com.opq.script.ast
 
+import com.opq.script.StoneException
 import com.opq.script.interpreter.Environment
 import com.opq.script.interpreter.NestedEnv
+import java.lang.reflect.Method
 
 class DefStmnt(c: List<ASTree>) : ASTList(c) {
     fun name(): String {
@@ -21,15 +23,16 @@ class DefStmnt(c: List<ASTree>) : ASTList(c) {
     }
 
     override fun eval(env: Environment): Any {
-        (env as NestedEnv).putNew(name(), Function(parameters(), body(), env))
+        (env as NestedEnv).putNew(name(), Function(name(), parameters(), body(), env))
         return name()
     }
 }
 
 class Function(
-    protected var parameters: ParameterList,
-    protected var body: BlockStmnt,
-    protected var env: Environment
+    val name: String,
+    var parameters: ParameterList,
+    var body: BlockStmnt,
+    var env: Environment
 ) {
     fun parameters(): ParameterList {
         return parameters
@@ -44,6 +47,27 @@ class Function(
     }
 
     override fun toString(): String {
-        return "<fun:" + hashCode() + ">"
+        return "<fun:$name ${hashCode()}>"
+    }
+}
+
+class NativeFunction(var name: String, var method: Method) {
+
+    var numParams: Int = method.parameterTypes.size
+
+    override fun toString(): String {
+        return "<native:$name ${hashCode()}>"
+    }
+
+    fun numOfParameters(): Int {
+        return numParams
+    }
+
+    operator fun invoke(tree: ASTree, vararg args: Any?): Any? {
+        try {
+            return method.invoke(null, *args)
+        } catch (e: Exception) {
+            throw StoneException("bad native function call: $name", tree)
+        }
     }
 }

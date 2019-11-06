@@ -16,6 +16,6 @@ class Fun(c: List<ASTree>) : ASTList(c) {
     }
 
     override fun eval(env: Environment): Any {
-        return Function(parameters(), body(), env)
+        return Function("anonymous closure fun", parameters(), body(), env)
     }
 }
