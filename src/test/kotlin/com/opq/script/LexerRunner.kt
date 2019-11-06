@@ -1,5 +1,6 @@
 package com.opq.script
 
+import org.junit.Assert
 import org.junit.Test
 
 class LexerTest {
@@ -11,5 +12,10 @@ class LexerTest {
             println("=> ${t.getText()}")
             t = l.read()
         }
+    }
+
+    @Test
+    fun toStringLiteralRunner() {
+        Assert.assertEquals(Lexer.toStringLiteral("\"abc\""), "abc")
     }
 }

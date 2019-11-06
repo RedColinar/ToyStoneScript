@@ -35,7 +35,7 @@ class Lexer(reader: Reader) {
         return true
     }
 
-    fun readLine() {
+    private fun readLine() {
         val line: String? = reader.readLine()
 
         if (line == null) {
@@ -61,7 +61,7 @@ class Lexer(reader: Reader) {
         queue.add(IdToken(lineNo, Token.EOL))
     }
 
-    fun addToken(lineNo: Int, matcher: Matcher) {
+    private fun addToken(lineNo: Int, matcher: Matcher) {
         // group是针对（）来说的，group（0）就是指的整个串，group（1） 指的是第一个括号里的东西，group（2）指的第二个括号里的东西。
         val m = matcher.group(1) ?: return
         if (matcher.group(2) == null) {
@@ -74,24 +74,26 @@ class Lexer(reader: Reader) {
         }
     }
 
-    private fun toStringLiteral(s: String): String {
-        val sb = StringBuilder()
-        val len = s.length - 1
-        var i = 1
-        while (i < len) {
-            var c = s[i]
-            if (c == '\\' && i + 1 < len) {
-                val c2 = s[i + 1]
-                if (c2 == '"' || c2 == '\\')
-                    c = s[++i]
-                else if (c2 == 'n') {
-                    ++i
-                    c = '\n'
+    companion object {
+        fun toStringLiteral(s: String): String {
+            val sb = StringBuilder()
+            val len = s.length - 1
+            var i = 1
+            while (i < len) {
+                var c = s[i]
+                if (c == '\\' && i + 1 < len) {
+                    val c2 = s[i + 1]
+                    if (c2 == '"' || c2 == '\\')
+                        c = s[++i]
+                    else if (c2 == 'n') {
+                        ++i
+                        c = '\n'
+                    }
                 }
+                sb.append(c)
+                i++
             }
-            sb.append(c)
-            i++
+            return sb.toString()
         }
-        return sb.toString()
     }
 }
