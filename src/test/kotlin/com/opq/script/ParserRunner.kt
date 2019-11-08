@@ -1,6 +1,7 @@
 package com.opq.script
 
 import com.opq.script.parser.BasicParser
+import com.opq.script.parser.Parser
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -8,36 +9,13 @@ import java.io.StringReader
 
 class ParserTest {
 
-    lateinit var p: BasicParser
-    var code = ""
+    private lateinit var p: BasicParser
+    private var code = ""
 
     @Before
     fun setup() {
         p = BasicParser()
     }
-
-//    @Test
-//    fun testBasicParser() {
-//        /*
-//        even = 0
-//        odd = 0
-//        while i < 10 {
-//            if i % 2 == 0 {
-//                even = even + i
-//            } else {
-//                odd = odd + i
-//            }
-//            i = i + 1
-//        }
-//        even + odd
-//         */
-//        val l = Lexer(CodeDialog())
-//        val bp = BasicParser()
-//        while (l.peek(0) !== Token.EOF) {
-//            val ast = bp.parse(l)
-//            println("=> $ast")
-//        }
-//    }
 
     @Test
     fun testPrimaryParser() {

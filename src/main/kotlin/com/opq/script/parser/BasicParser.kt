@@ -2,9 +2,6 @@ package com.opq.script.parser
 
 import com.opq.script.Lexer
 import com.opq.script.ParseException
-import com.opq.script.Parser
-import com.opq.script.Parser.Operators
-import com.opq.script.Parser.rule
 import com.opq.script.Token
 import com.opq.script.ast.*
 import java.util.*
@@ -49,7 +46,7 @@ open class BasicParser {
         reserved.add("}")
         reserved.add(Token.EOL)
 
-        operators.add("=", 1, Parser.Operators.RIGHT)
+        operators.add("=", 1, Operators.RIGHT)
         operators.add("==", 2, Operators.LEFT)
         operators.add(">", 2, Operators.LEFT)
         operators.add("<", 2, Operators.LEFT)

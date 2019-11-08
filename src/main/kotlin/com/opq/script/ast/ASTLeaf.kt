@@ -5,7 +5,6 @@ import com.opq.script.Token
 import com.opq.script.interpreter.Environment
 import java.util.ArrayList
 
-
 open class ASTLeaf(protected val token: Token) : ASTree() {
     override fun child(i: Int): ASTree {
         throw IndexOutOfBoundsException()

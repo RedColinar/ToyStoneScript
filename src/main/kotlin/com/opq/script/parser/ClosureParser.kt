@@ -1,6 +1,5 @@
 package com.opq.script.parser
 
-import com.opq.script.Parser.rule
 import com.opq.script.ast.Fun
 
 class ClosureParser : FuncParser() {
