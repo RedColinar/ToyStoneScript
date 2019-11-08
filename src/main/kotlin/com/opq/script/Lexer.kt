@@ -6,8 +6,11 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 class Lexer(reader: Reader) {
+    // 整型字面量
     private val integerPat = "[0-9]+"
+    // 字符串字面量
     private val stringPat = "\"(\\\\\"|\\\\\\\\|\\\\n|[^\"])*\""
+    // \p{Punct} 表示 !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
     private val identifierPat = "[A-Z_a-z][A-Z_a-z0-9]*|==|<=|>=|&&|\\|\\||\\p{Punct}"
 
     private val blankSpace = "\\s*"
@@ -64,6 +67,7 @@ class Lexer(reader: Reader) {
     private fun addToken(lineNo: Int, matcher: Matcher) {
         // group是针对（）来说的，group（0）就是指的整个串，group（1） 指的是第一个括号里的东西，group（2）指的第二个括号里的东西。
         val m = matcher.group(1) ?: return
+        // 如果不是注释
         if (matcher.group(2) == null) {
             val token = when {
                 matcher.group(3) != null -> NumToken(lineNo, Integer.parseInt(m))

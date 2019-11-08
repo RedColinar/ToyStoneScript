@@ -33,16 +33,18 @@ open class BasicParser {
         .sep("}")
     var simple = rule(PrimaryExpr::class.java).ast(expr)
     var statement = statement0.or(
-        rule(IfStmnt::class.java).sep("if").ast(expr).ast(block)
+        rule(IfStmnt::class.java)
+            .sep("if").ast(expr).ast(block)
             .option(rule().sep("else").ast(block)),
-        rule(WhileStmnt::class.java).sep("while").ast(expr).ast(block),
+        rule(WhileStmnt::class.java)
+            .sep("while").ast(expr).ast(block),
         simple
     )
 
     var program = rule().or(statement, rule(NullStmnt::class.java))
         .sep(";", Token.EOL)
 
-    constructor() {
+    init {
         reserved.add(";")
         reserved.add("}")
         reserved.add(Token.EOL)

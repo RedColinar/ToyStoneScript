@@ -4,7 +4,7 @@ import com.opq.script.StoneException
 import com.opq.script.interpreter.Environment
 
 open class NegativeExpr(c: List<ASTree>) : ASTList(c) {
-    fun operand(): ASTree {
+    private fun operand(): ASTree {
         return child(0)
     }
 

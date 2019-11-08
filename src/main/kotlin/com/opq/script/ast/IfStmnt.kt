@@ -4,15 +4,15 @@ import com.opq.script.interpreter.Environment
 import com.opq.script.interpreter.FALSE
 
 open class IfStmnt(c: List<ASTree>) : ASTList(c) {
-    fun condition(): ASTree {
+    private fun condition(): ASTree {
         return child(0)
     }
 
-    fun thenBlock(): ASTree {
+    private fun thenBlock(): ASTree {
         return child(1)
     }
 
-    fun elseBlock(): ASTree? {
+    private fun elseBlock(): ASTree? {
         return if (numChildren() > 2) child(2) else null
     }
 

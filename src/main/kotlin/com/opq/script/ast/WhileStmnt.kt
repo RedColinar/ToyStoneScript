@@ -4,11 +4,11 @@ import com.opq.script.interpreter.Environment
 import com.opq.script.interpreter.FALSE
 
 open class WhileStmnt(c: List<ASTree>) : ASTList(c) {
-    fun condition(): ASTree {
+    private fun condition(): ASTree {
         return child(0)
     }
 
-    fun body(): ASTree {
+    private fun body(): ASTree {
         return child(1)
     }
 

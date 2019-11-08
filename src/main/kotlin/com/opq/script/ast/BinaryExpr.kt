@@ -1,6 +1,7 @@
 package com.opq.script.ast
 
 import com.opq.script.StoneException
+import com.opq.script.Token
 import com.opq.script.interpreter.Environment
 import com.opq.script.interpreter.FALSE
 import com.opq.script.interpreter.TRUE
@@ -74,5 +75,12 @@ open class BinaryExpr(c: List<ASTree>) : ASTList(c) {
             if (a < b) TRUE else FALSE
         else
             throw StoneException("bad operator", this)
+    }
+
+    companion object {
+        fun isOperater(token: Token): Boolean {
+            val op = token.getText()
+            return op == "+" || op == "-" || op == "*" || op == "/" || op == "%" || op == "==" || op == ">" || op == "<"
+        }
     }
 }
