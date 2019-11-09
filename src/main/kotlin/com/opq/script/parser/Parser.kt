@@ -101,6 +101,7 @@ open class Parser {
 
     fun maybe(p: Parser): Parser {
         val p2 = Parser(p)
+        // 保留 factory，去掉 elements
         p2.reset()
         elements.add(OrTree(arrayOf(p, p2)))
         return this

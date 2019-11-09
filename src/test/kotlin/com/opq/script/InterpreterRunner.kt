@@ -8,80 +8,78 @@ import com.opq.script.interpreter.NestedEnv
 import com.opq.script.parser.BasicParser
 import com.opq.script.parser.ClosureParser
 import com.opq.script.parser.FuncParser
+import org.junit.Assert
 import org.junit.Test
+import java.io.StringReader
 
 class InterpreterTest {
+    lateinit var code: String
 
     @Test
     fun basicInterpreterRunner() {
-        /*
-        sum = 0
-        i = 1
-        while i < 10 {
-            sum = sum + i
-            i = i + 1
-        }
-        sum
-        */
-        run(BasicParser(), BasicEnv())
+        code = """
+            sum = 0
+            i = 1
+            while i < 10 {
+                sum = sum + i
+                i = i + 1
+            }
+            sum
+        """.trimIndent()
+        run(BasicParser(), BasicEnv(), code)
     }
 
     @Test
     fun functionInterpreterRunner() {
-        /*
-        def fib (n) {
-            if n < 2 {
-                n
-            } else {
-                fib(n - 1) + fib(n - 2)
+        code = """
+            def fib (n) {
+                if n < 2 {
+                    n
+                } else {
+                    fib(n - 1) + fib(n - 2)
+                }
             }
-        }
-        fib(10)
-        */
-        run(FuncParser(), NestedEnv())
+            fib(10)
+        """.trimIndent()
+        run(FuncParser(), NestedEnv(), code)
     }
 
     @Test
     fun closureInterpreterRunner() {
-        /*
-        def counter (c) {
-            fun () {
-                c = c + 1
-            }
-        }
-        c1 = counter(0)
-        c2 = counter(0)
-        c1()
-        c1()
-        c2()
-        */
-        run(ClosureParser(), NestedEnv())
+        code = """
+            inc = fun (x) { x + 1 }
+            inc(2)
+        """.trimIndent()
+        val res = run(ClosureParser(), NestedEnv(), code)
+        Assert.assertEquals(res, 3)
     }
 
     @Test
     fun nativeInterpreterRunner() {
-        /*
-        def fib (n) {
-            if n < 2 {
-                n
-            } else {
-                fib(n - 1) + fib(n - 2)
+        code = """
+            def fib (n) {
+                if n < 2 {
+                    n
+                } else {
+                    fib(n - 1) + fib(n - 2)
+                }
             }
-        }
-        t = currentTime()
-        fib 15
-        print currentTime() - t + " msec"
-        */
-        run(ClosureParser(), Natives().environment(NestedEnv()))
+            t = currentTime()
+            fib 15
+            print currentTime() - t + " msec"
+        """.trimIndent()
+        run(ClosureParser(), Natives().environment(NestedEnv()), code)
     }
 }
 
-fun run(bp: BasicParser, env: Environment) {
-    val lexer = Lexer(CodeDialog())
+fun run(bp: BasicParser, env: Environment, code: String): Any? {
+    val lexer = Lexer(StringReader(code))
+    var res : Any? = null
     while (lexer.peek(0) !== Token.EOF) {
         val t: ASTree = bp.parse(lexer)
         if (t !is NullStmnt) {
-            t.eval(env)
+            res = t.eval(env)
         }
     }
+    return res
 }

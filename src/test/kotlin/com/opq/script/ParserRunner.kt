@@ -1,6 +1,6 @@
 package com.opq.script
 
-import com.opq.script.parser.BasicParser
+import com.opq.script.parser.FuncParser
 import com.opq.script.parser.Parser
 import org.junit.Assert
 import org.junit.Before
@@ -9,12 +9,18 @@ import java.io.StringReader
 
 class ParserTest {
 
-    private lateinit var p: BasicParser
+    private lateinit var p: FuncParser
     private var code = ""
 
     @Before
     fun setup() {
-        p = BasicParser()
+        p = FuncParser()
+    }
+
+    private fun check(code: String, parser: Parser, result: String) {
+        val ast = parser.parse(Lexer(StringReader(code)))
+        Assert.assertEquals(ast.toString(), result)
+        println(ast)
     }
 
     @Test
@@ -163,9 +169,66 @@ class ParserTest {
         )
     }
 
-    private fun check(code: String, parser: Parser, result: String) {
-        val ast = parser.parse(Lexer(StringReader(code)))
-        Assert.assertEquals(ast.toString(), result)
-        println(ast)
+    @Test
+    fun testParamsParser() {
+        code = """
+            num1, num2, num3, num4
+        """.trimIndent()
+        check(code, p.params, "(num1 num2 num3 num4)")
+
+        code = """
+            ()
+        """.trimIndent()
+        check(code, p.paramList, "()")
+
+        code = """
+            (num1, num2, num3, num4)
+        """.trimIndent()
+        check(code, p.paramList, "(num1 num2 num3 num4)")
+    }
+
+    @Test
+    fun testArgumentsParser() {
+        code = """
+            num1, num2, num3, num4
+        """.trimIndent()
+        check(code, p.args, "(num1 num2 num3 num4)")
+
+        code = """
+            num1 + 1, num2 + 2, num3 + num1, num4 + num4
+        """.trimIndent()
+        check(code, p.args, "((num1 + 1) (num2 + 2) (num3 + num1) (num4 + num4))")
+    }
+
+    @Test
+    fun testPostfixParser() {
+        code = """
+            (num1 + 1, num2 + 2, num3 + num1, num4 + num4)
+        """.trimIndent()
+        check(code, p.postfix, "((num1 + 1) (num2 + 2) (num3 + num1) (num4 + num4))")
+
+        code = """
+            fib(num1 + 1, num2 + 2, num3 + num1, num4 + num4)
+        """.trimIndent()
+        check(code, p.primary, "(fib ((num1 + 1) (num2 + 2) (num3 + num1) (num4 + num4)))")
+
+        code = """
+            fib()
+        """.trimIndent()
+        check(code, p.primary, "(fib ())")
+    }
+
+    @Test
+    fun testDefParser() {
+        code = """
+            def fib (n) {
+                if n < 2 {
+                    n
+                } else {
+                    fib(n - 1) + fib(n - 2)
+                }
+            }
+        """.trimIndent()
+        check(code, p.def, "(def fib (n) ((if (n < 2) (n) else (((fib ((n - 1))) + (fib ((n - 2))))))))")
     }
 }

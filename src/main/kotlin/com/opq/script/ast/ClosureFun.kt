@@ -2,7 +2,7 @@ package com.opq.script.ast
 
 import com.opq.script.interpreter.Environment
 
-class Fun(c: List<ASTree>) : ASTList(c) {
+class ClosureFun(c: List<ASTree>) : ASTList(c) {
     fun parameters(): ParameterList {
         return child(0) as ParameterList
     }
@@ -12,7 +12,7 @@ class Fun(c: List<ASTree>) : ASTList(c) {
     }
 
     override fun toString(): String {
-        return "(fun " + parameters() + " " + body() + ")"
+        return "(closure fun " + parameters() + " " + body() + ")"
     }
 
     override fun eval(env: Environment): Any {

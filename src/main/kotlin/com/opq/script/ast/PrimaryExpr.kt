@@ -9,7 +9,7 @@ class PrimaryExpr(c: List<ASTree>) : ASTList(c) {
             return if (c.size == 1) c[0] else PrimaryExpr(c)
         }
     }
-
+    // 操作数
     fun operand(): ASTree {
         return child(0)
     }
@@ -22,6 +22,15 @@ class PrimaryExpr(c: List<ASTree>) : ASTList(c) {
         return numChildren() - nest > 1
     }
 
+//    override fun eval(env: Environment): Any? {
+//        var res : Any? = operand().eval(env)
+//        val n = numChildren()
+//        for (i in 1 until n) {
+//            res = postfix(i).eval(env, res)
+//        }
+//        return res
+//    }
+
     override fun eval(env: Environment): Any? {
         return evalSubExpr(env, 0)
     }
@@ -30,7 +39,8 @@ class PrimaryExpr(c: List<ASTree>) : ASTList(c) {
         if (hasPostfix(nest)) {
             val target = evalSubExpr(env, nest + 1)
             return postfix(nest).eval(env, target)
-        } else
+        } else {
             return operand().eval(env)
+        }
     }
 }

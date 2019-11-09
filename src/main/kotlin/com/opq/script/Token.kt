@@ -14,7 +14,7 @@ abstract class Token(val lineNumber: Int) {
 
     companion object {
         val EOF: Token = object : Token(-1) {}
-        val EOL = "\\n"
+        const val EOL = "\\n"
     }
 }
 
@@ -22,7 +22,7 @@ class NumToken(line: Int, private val value: Int) : Token(line) {
 
     override fun isNumber(): Boolean = true
 
-    override fun getText(): String = Integer.toString(value)
+    override fun getText(): String = value.toString()
 
     override fun getNumber(): Int = value
 }
